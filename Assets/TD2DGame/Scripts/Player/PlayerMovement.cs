@@ -13,7 +13,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D _rigidbody2D;
     private Vector2 _moveInput;
     private Animator _animator;
-    
+
     private void Awake()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
@@ -22,14 +22,15 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-       _rigidbody2D.linearVelocity = _moveInput * _moveSpeed;
+        _rigidbody2D.linearVelocity = _moveInput * _moveSpeed;
     }
 
     public void Move(InputAction.CallbackContext context)
     {
         _animator.SetBool(IS_WALKING, true);
-        if(context.canceled)
+        if (context.canceled)
         {
+
             _animator.SetBool(IS_WALKING, false);
             _animator.SetFloat(LAST_INPUT_X, _moveInput.x);
             _animator.SetFloat(LAST_INPUT_Y, _moveInput.y);

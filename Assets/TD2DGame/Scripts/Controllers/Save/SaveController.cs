@@ -1,0 +1,61 @@
+using System.IO;
+using Unity.Cinemachine;
+using UnityEngine;
+
+//Its a class that handles saving and loading the player's position and the current map boundary to and from a JSON file..
+//Этот класс обрабатывает сохранение и загрузку позиции игрока и текущей границы карты в JSON-файл и из него.
+public class SaveController : MonoBehaviour
+{
+    //That string variable will hold the path to the save file on the device's persistent data path.
+    //Эта строковая переменная будет хранить путь к файлу сохранения в постоянном каталоге данных устройства.
+    private string saveLocation; 
+
+
+    private void Start()
+    {
+        //Define saveLocation
+        saveLocation =  Path.Combine(Application.persistentDataPath, "saveData.json");
+        //Save location its a file called saveData.json in the persistent data path of the application.
+        //Местоположение сохранения - это файл с именем saveData.json в постоянном каталоге данных приложения.
+
+        Debug.Log($"Директория путь сохранения: {Application.persistentDataPath}");
+
+        LoadGame();
+
+    }
+
+    // Save the player's position and the current map boundary to a JSON file
+    //Сохранить позицию игрока и текущую границу карты в JSON-файл
+    public void SaveGame()
+    {
+        SaveData saveData = new SaveData()
+        //Create a new instance of the SaveData class and populate it with the player's position and the current map boundary
+        //Создайте новый экземпляр класса SaveData и заполните его позицией игрока и текущей границей карты
+        {
+            playerPosition = GameObject.FindGameObjectWithTag("Player").transform.position,
+            mapBoundary = FindAnyObjectByType<CinemachineConfiner2D>().BoundingShape2D.gameObject.name
+        };
+
+        File.WriteAllText(saveLocation, JsonUtility.ToJson(saveData));
+        //Write the JSON representation of the SaveData object to the save file
+        //Запишите JSON-представление объекта SaveData в файл сохранения
+    }
+
+    // Load the player's position and the current map boundary from a JSON file
+    //Загрузить позицию игрока и текущую границу карты из JSON-файла
+    public void LoadGame()
+    {
+        if (File.Exists(saveLocation))
+        //Check if the save file exists
+        //Проверить, существует ли файл сохранения
+        {
+            SaveData saveData = JsonUtility.FromJson<SaveData>(File.ReadAllText(saveLocation));
+            GameObject.FindGameObjectWithTag("Player").transform.position = saveData.playerPosition;
+            FindAnyObjectByType<CinemachineConfiner2D>().BoundingShape2D = GameObject.Find(saveData.mapBoundary).GetComponent<PolygonCollider2D>();
+        }
+        else
+        {
+            SaveGame();
+        }
+    }
+}
