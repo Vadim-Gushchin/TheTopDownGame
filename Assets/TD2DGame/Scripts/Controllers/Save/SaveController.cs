@@ -2,7 +2,54 @@ using System.IO;
 using Unity.Cinemachine;
 using UnityEngine;
 
-//Its a class that handles saving and loading the player's position and the current map boundary to and from a JSON file..
+public class SaveController : MonoBehaviour
+{
+    private string saveLocation;
+    private InventoryController inventoryController;
+
+    private void Start()
+    {
+        saveLocation = Path.Combine(Application.persistentDataPath, "saveData.json");
+        inventoryController = FindAnyObjectByType<InventoryController>();
+        LoadGame();
+    }
+
+    public void SaveGame()
+    {
+        SaveData saveData = new SaveData()
+        {
+            playerPosition = GameObject.FindGameObjectWithTag("Player").transform.position,
+            mapBoundary = FindAnyObjectByType<CinemachineConfiner2D>().BoundingShape2D.gameObject.name,
+            inventorySaveData = inventoryController.GetInventorySaveData(),
+        };
+
+        File.WriteAllText(saveLocation, JsonUtility.ToJson(saveData));
+
+        Debug.Log($"Игры сохранена. \n Директория путь сохранения: {Application.persistentDataPath}");
+    }
+
+    public void LoadGame()
+    {
+        if (File.Exists(saveLocation))
+        {
+            SaveData saveData = JsonUtility.FromJson<SaveData>(File.ReadAllText(saveLocation));
+            GameObject.FindGameObjectWithTag("Player").transform.position = saveData.playerPosition;
+            FindAnyObjectByType<CinemachineConfiner2D>().BoundingShape2D = GameObject.Find(saveData.mapBoundary).GetComponent<PolygonCollider2D>();
+            inventoryController.SetInvenotyItems(saveData.inventorySaveData);
+
+            Debug.Log($"Игра Загружена.");
+        }
+        else
+        {
+            SaveGame();
+        }
+    }
+}
+
+
+/* Code with comments in English and Russian:
+ * 
+ * Its a class that handles saving and loading the player's position and the current map boundary to and from a JSON file..
 //Этот класс обрабатывает сохранение и загрузку позиции игрока и текущей границы карты в JSON-файл и из него.
 public class SaveController : MonoBehaviour
 {
@@ -13,12 +60,14 @@ public class SaveController : MonoBehaviour
 
     private void Start()
     {
-        //Define saveLocation
         saveLocation =  Path.Combine(Application.persistentDataPath, "saveData.json");
-        //Save location its a file called saveData.json in the persistent data path of the application.
-        //Местоположение сохранения - это файл с именем saveData.json в постоянном каталоге данных приложения.
 
-        Debug.Log($"Директория путь сохранения: {Application.persistentDataPath}");
+        Save location its a file called saveData.json in the persistent data path of the application.
+        Местоположение сохранения - это файл с именем saveData.json в постоянном каталоге данных приложения.
+
+         inventoryController = FindAnyObjectByType<InventoryController>();
+         Just find the first instance of the InventoryController class in the scene and assign it to the inventoryController variable.
+         Просто находим  экземпляр класса InventoryController в сцене и присвойте его переменной inventoryController.
 
         LoadGame();
 
@@ -34,6 +83,7 @@ public class SaveController : MonoBehaviour
         {
             playerPosition = GameObject.FindGameObjectWithTag("Player").transform.position,
             mapBoundary = FindAnyObjectByType<CinemachineConfiner2D>().BoundingShape2D.gameObject.name
+            inventorySaveData = inventoryController.GetInventorySaveData(),
         };
 
         File.WriteAllText(saveLocation, JsonUtility.ToJson(saveData));
@@ -52,6 +102,7 @@ public class SaveController : MonoBehaviour
             SaveData saveData = JsonUtility.FromJson<SaveData>(File.ReadAllText(saveLocation));
             GameObject.FindGameObjectWithTag("Player").transform.position = saveData.playerPosition;
             FindAnyObjectByType<CinemachineConfiner2D>().BoundingShape2D = GameObject.Find(saveData.mapBoundary).GetComponent<PolygonCollider2D>();
+            inventoryController.SetInventoryItems(saveData.inventorySaveData);
         }
         else
         {
@@ -59,3 +110,4 @@ public class SaveController : MonoBehaviour
         }
     }
 }
+ */

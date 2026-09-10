@@ -1,4 +1,6 @@
+using NUnit.Framework;
 using UnityEngine;
+using System.Collections.Generic;
 
 [System.Serializable]
 public class SaveData
@@ -16,5 +18,8 @@ public class SaveData
     // Это способ разделить наш игровой мир на части
     // Когда наш игрок пересекает коллайдер границы - он перемещается в новую игровую зону
     // Поэтому нам нужно это сохранить, иначе камера всегда будет начинать с первой зоны
+    public List<InventorySaveData> inventorySaveData;
+    // Its a list that will hold the player's inventory items, each represented by an InventorySaveData object.
+    // Это список, который будет хранить предметы инвентаря игрока, каждый из которых представлен объектом InventorySaveData.
 }
 
