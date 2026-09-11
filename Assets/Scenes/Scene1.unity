@@ -19636,6 +19636,7 @@ GameObject:
   - component: {fileID: 1733041034}
   - component: {fileID: 1733041033}
   - component: {fileID: 1733041035}
+  - component: {fileID: 1733041036}
   m_Layer: 5
   m_Name: HUD_Hotbar
   m_TagString: Untagged
@@ -19726,6 +19727,21 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &1733041036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1733041031}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69df90535cc04c446a7a963c90ed5979, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HotbarController
+  hotbarPanel: {fileID: 1733041031}
+  hotbarSlotPrefab: {fileID: 4669511708710966371, guid: 90e4d15913523124b9917e759407e579, type: 3}
+  numberOfSlots: 10
 --- !u!1 &1759334585
 GameObject:
   m_ObjectHideFlags: 0

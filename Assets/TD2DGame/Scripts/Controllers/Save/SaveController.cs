@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using Unity.Cinemachine;
 using UnityEngine;
@@ -6,11 +7,13 @@ public class SaveController : MonoBehaviour
 {
     private string saveLocation;
     private InventoryController inventoryController;
+    private HotbarController hotbarController;
 
     private void Start()
     {
         saveLocation = Path.Combine(Application.persistentDataPath, "saveData.json");
         inventoryController = FindAnyObjectByType<InventoryController>();
+        hotbarController = FindAnyObjectByType<HotbarController>();
         LoadGame();
     }
 
@@ -21,6 +24,7 @@ public class SaveController : MonoBehaviour
             playerPosition = GameObject.FindGameObjectWithTag("Player").transform.position,
             mapBoundary = FindAnyObjectByType<CinemachineConfiner2D>().BoundingShape2D.gameObject.name,
             inventorySaveData = inventoryController.GetInventorySaveData(),
+            hotbarSaveData = hotbarController.GetHotbarSaveData(),
         };
 
         File.WriteAllText(saveLocation, JsonUtility.ToJson(saveData));
@@ -36,12 +40,15 @@ public class SaveController : MonoBehaviour
             GameObject.FindGameObjectWithTag("Player").transform.position = saveData.playerPosition;
             FindAnyObjectByType<CinemachineConfiner2D>().BoundingShape2D = GameObject.Find(saveData.mapBoundary).GetComponent<PolygonCollider2D>();
             inventoryController.SetInvenotyItems(saveData.inventorySaveData);
+            hotbarController.SetHotbarItems(saveData.hotbarSaveData);
 
             Debug.Log($"Игра Загружена.");
         }
         else
         {
             SaveGame();
+            inventoryController.SetInvenotyItems(new List<InventorySaveData>());
+            hotbarController.SetHotbarItems(new List<InventorySaveData>());
         }
     }
 }

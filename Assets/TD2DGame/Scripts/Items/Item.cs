@@ -6,6 +6,11 @@ public class Item : MonoBehaviour
     public int itemID;
     public string itemName;
 
+    public virtual void UseItem()
+    {
+        Debug.Log($" {itemName} was used");
+    }
+
     public virtual void Pickup()
     {
 

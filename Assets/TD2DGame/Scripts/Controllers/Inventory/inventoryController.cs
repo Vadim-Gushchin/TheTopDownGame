@@ -47,7 +47,7 @@ public class InventoryController : MonoBehaviour
                 inventorySaveData.Add(new InventorySaveData { itemID = currentItemInTheSlot.itemID, slotIndex = slotTransform.GetSiblingIndex() });
             }
         }
-        Debug.Log($"Вернул {inventorySaveData.Count + 1} элементов");
+        Debug.Log($"INVENTORY Вернул {inventorySaveData.Count} элементов");
         return inventorySaveData;
     }
 
