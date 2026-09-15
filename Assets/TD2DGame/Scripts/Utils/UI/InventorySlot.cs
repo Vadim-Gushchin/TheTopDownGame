@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class InentorySlot : MonoBehaviour
+public class InventorySlot : MonoBehaviour
 {
     public GameObject currentItem;
     // The current item in the inventory slot. This can be any GameObject representing an item in the game.

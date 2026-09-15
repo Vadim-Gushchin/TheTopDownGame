@@ -20,7 +20,7 @@ public class InventoryController : MonoBehaviour
     {
         foreach (Transform slotTransform in inventoryPanel.transform)
         {
-            InentorySlot slot = slotTransform.GetComponent<InentorySlot>();
+            InventorySlot slot = slotTransform.GetComponent<InventorySlot>();
 
             if (slot.currentItem == null && slot != null)
             {
@@ -40,7 +40,7 @@ public class InventoryController : MonoBehaviour
 
         foreach (Transform slotTransform in inventoryPanel.transform)
         {
-            InentorySlot slot = slotTransform.GetComponent<InentorySlot>();
+            InventorySlot slot = slotTransform.GetComponent<InventorySlot>();
             if (slot.currentItem != null)
             {
                 Item currentItemInTheSlot = slot.currentItem.GetComponent<Item>();
@@ -67,7 +67,7 @@ public class InventoryController : MonoBehaviour
         {
             if (savedData.slotIndex < slotCount)
             {
-                InentorySlot slot = inventoryPanel.transform.GetChild(savedData.slotIndex).GetComponent<InentorySlot>();
+                InventorySlot slot = inventoryPanel.transform.GetChild(savedData.slotIndex).GetComponent<InventorySlot>();
                 GameObject itemPrefab = itemDictionary.GetItemPrefabByID(savedData.itemID);
                 if (itemPrefab != null)
                 {
@@ -109,7 +109,7 @@ public class InventoryController : MonoBehaviour
 
         for (int i = 0; i < slotCount; i++)
         {
-            InentorySlot slot = Instantiate(inventorySlotPrefab, inventoryPanel.transform).GetComponent<InentorySlot>();
+            InventorySlot slot = Instantiate(inventorySlotPrefab, inventoryPanel.transform).GetComponent<InventorySlot>();
             if (i < itemPrefabs.Length)
             {
                 GameObject item = Instantiate(itemPrefabs[i], slot.transform);
@@ -130,7 +130,7 @@ public class InventoryController : MonoBehaviour
 
         foreach (Transform slotTransform in inventoryPanel.transform)
         {
-            InentorySlot slot = slotTransform.GetComponent<InentorySlot>();
+            InventorySlot slot = slotTransform.GetComponent<InventorySlot>();
             if (slot.currentItem != null)
             {
                 Item currentItemInTheSlot = slot.currentItem.GetComponent<Item>();
@@ -160,7 +160,7 @@ public class InventoryController : MonoBehaviour
         {
             if (savedData.slotIndex < slotCount)
             {
-                InentorySlot slot = inventoryPanel.transform.GetChild(savedData.slotIndex).GetComponent<InentorySlot>();
+                InventorySlot slot = inventoryPanel.transform.GetChild(savedData.slotIndex).GetComponent<InventorySlot>();
                 GameObject itemPrefab = itemDictionary.GetItemPrefabByID(savedData.itemID);
                 if (itemPrefab != null)
                 {

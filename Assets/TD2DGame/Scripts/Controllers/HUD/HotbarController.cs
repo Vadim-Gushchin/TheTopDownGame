@@ -36,7 +36,7 @@ public class HotbarController : MonoBehaviour
 
     void UseItemInSlot(int slotIndex)
     {
-        InentorySlot slot = hotbarPanel.transform.GetChild(slotIndex).GetComponent<InentorySlot>();
+        InventorySlot slot = hotbarPanel.transform.GetChild(slotIndex).GetComponent<InventorySlot>();
         if (slot.currentItem != null)
         {
             Item item = slot.currentItem.GetComponent<Item>();
@@ -51,7 +51,7 @@ public class HotbarController : MonoBehaviour
 
         foreach (Transform slotTransform in hotbarPanel.transform)
         {
-            InentorySlot slot = slotTransform.GetComponent<InentorySlot>();
+            InventorySlot slot = slotTransform.GetComponent<InventorySlot>();
             if (slot.currentItem != null)
             {
                 Item currentItemInTheSlot = slot.currentItem.GetComponent<Item>();
@@ -78,7 +78,7 @@ public class HotbarController : MonoBehaviour
         {
             if (savedData.slotIndex < numberOfSlots)
             {
-                InentorySlot slot = hotbarPanel.transform.GetChild(savedData.slotIndex).GetComponent<InentorySlot>();
+                InventorySlot slot = hotbarPanel.transform.GetChild(savedData.slotIndex).GetComponent<InventorySlot>();
                 GameObject itemPrefab = itemDictionary.GetItemPrefabByID(savedData.itemID);
                 if (itemPrefab != null)
                 {

@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 1691335468392239805}
   - component: {fileID: 3958462264609946540}
   - component: {fileID: 9153909611976236394}
+  - component: {fileID: 3144867762613031665}
   m_Layer: 5
   m_Name: Item
   m_TagString: Item
@@ -200,6 +201,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 030b500f09734944491c9ec4428e41e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ItemDragHandler
+  minDropDistance: 2
+  maxDropDistance: 3
 --- !u!114 &9153909611976236394
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,3 +217,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Item
   itemID: 1
   itemName: Poision
+--- !u!114 &3144867762613031665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6662426506785564210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2f242cf8cd9597458148db51b62279d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BounceEffect
+  bounceHight: 0.5
+  bounceDuration: 1
+  bounceCount: 2
