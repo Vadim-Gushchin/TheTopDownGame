@@ -4,6 +4,114 @@ using System.Collections;
 using System.Collections.Generic;
 
 
+public class ItemDragHandler : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
+{
+    [SerializeField] float minDropDistance =3f;
+    [SerializeField] float maxDropDistance =4f;
+
+    Transform originalParent;
+    CanvasGroup canvasGroup;
+
+
+    void Start()
+    {
+        canvasGroup = GetComponent<CanvasGroup>();
+    }
+
+
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        originalParent = transform.parent;
+        transform.SetParent(originalParent.root);
+        canvasGroup.blocksRaycasts = false;
+        canvasGroup.alpha = 0.6f;
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        transform.position = eventData.position;
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        canvasGroup.blocksRaycasts = true;
+        canvasGroup.alpha = 1f;
+        InventorySlot dropSlot = eventData.pointerEnter?.GetComponent<InventorySlot>();
+
+        if (dropSlot == null)
+        {
+            GameObject dropItem = eventData.pointerEnter;
+
+            if (dropItem != null)
+            {
+                dropSlot = dropItem.GetComponentInParent<InventorySlot>();
+            }
+        }
+        InventorySlot originalSlot = originalParent.GetComponent<InventorySlot>();
+
+        if (dropSlot != null)
+        {
+            if (dropSlot.currentItem != null)
+            {
+                dropSlot.currentItem.transform.SetParent(originalSlot.transform);
+                originalSlot.currentItem = dropSlot.currentItem;
+                dropSlot.currentItem.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+            }
+            else
+            {
+                originalSlot.currentItem = null;
+            }
+            transform.SetParent(dropSlot.transform);
+            dropSlot.currentItem = gameObject;
+        }
+        else
+        {
+            if (!IsWithinInventory(eventData.position))
+            {
+                DropItem(originalSlot);
+            }
+            else
+            {
+                transform.SetParent(originalParent);
+            }
+        }
+        GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+    }
+
+    bool IsWithinInventory(Vector2 mousePosition)
+    {
+        RectTransform invetoryRect = originalParent.parent.GetComponent<RectTransform>();
+        return RectTransformUtility.RectangleContainsScreenPoint(invetoryRect, mousePosition);
+    }
+
+    void DropItem(InventorySlot originalSlot)
+    {
+        originalSlot.currentItem = null;
+
+        Transform playerTransform = GameObject.FindGameObjectWithTag("Player")?.transform;
+        if (playerTransform == null)
+        {
+            Debug.Log("MISSING GAMEOBJECT WITH PLAYER TAG");
+            return;
+        }
+
+        Vector2 dropOffset = Random.insideUnitCircle.normalized * Random.Range(minDropDistance, maxDropDistance);
+        Vector2 dropPositon = (Vector2)playerTransform.position + dropOffset;
+
+        GameObject dropItem = Instantiate(gameObject, dropPositon, Quaternion.identity);
+        dropItem.GetComponent<BounceEffect>().StartBounce();
+
+        Destroy(gameObject);
+
+    }
+}
+
+/*using UnityEngine;
+using UnityEngine.EventSystems;
+using System.Collections;
+using System.Collections.Generic;
+
+
 /// <summary>
 /// Класс обрабатывает перетаскивание предметов в системе инвентаря.
 /// Реализует интерфейсы IDragHandler, IBeginDragHandler и IEndDragHandler для управления поведением перетаскивания и сброса предметов.
@@ -52,8 +160,8 @@ public class ItemDragHandler : MonoBehaviour, IDragHandler, IBeginDragHandler, I
         // Восстановить полную непрозрачность
         canvasGroup.alpha = 1f;
 
-        // Пытаемся получить компонент InentorySlot в точке сброса
-        InentorySlot dropSlot = eventData.pointerEnter?.GetComponent<InentorySlot>();
+        // Пытаемся получить компонент InventorySlot в точке сброса
+        InventorySlot dropSlot = eventData.pointerEnter?.GetComponent<InventorySlot>();
 
         // Если dropSlot не найден напрямую, ищем его в родительских элементах
         if (dropSlot == null)
@@ -61,15 +169,15 @@ public class ItemDragHandler : MonoBehaviour, IDragHandler, IBeginDragHandler, I
             // Получаем объект, на который сброшен предмет
             GameObject dropItem = eventData.pointerEnter;
 
-            // Если объект существует, ищем InentorySlot в его родительских элементах
+            // Если объект существует, ищем InventorySlot в его родительских элементах
             if (dropItem != null)
             {
-                dropSlot = dropItem.GetComponentInParent<InentorySlot>();
+                dropSlot = dropItem.GetComponentInParent<InventorySlot>();
             }
         }
 
-        // Получаем компонент InentorySlot исходного родителя
-        InentorySlot originalSlot = originalParent.GetComponent<InentorySlot>();
+        // Получаем компонент InventorySlot исходного родителя
+        InventorySlot originalSlot = originalParent.GetComponent<InventorySlot>();
 
         // Если найлось место сброса (инвентарный слот), обменяем предметы или поместим новый предмет
         if (dropSlot != null)
@@ -103,3 +211,5 @@ public class ItemDragHandler : MonoBehaviour, IDragHandler, IBeginDragHandler, I
     }
 }
 
+
+ */

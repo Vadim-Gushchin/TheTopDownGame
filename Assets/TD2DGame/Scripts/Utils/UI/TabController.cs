@@ -31,3 +31,5 @@ public class TabController : MonoBehaviour
         tabImages[tabNumber].color = Color.white;
     }
 }
+
+
