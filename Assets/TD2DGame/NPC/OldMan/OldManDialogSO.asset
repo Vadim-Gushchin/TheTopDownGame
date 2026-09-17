@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 416165de9ae0f274e9b462c32e7b431c, type: 3}
+  m_Name: OldManDialogSO
+  m_EditorClassIdentifier: Assembly-CSharp::NPCDialog
+  npcName: Old Man
+  npcPortrait: {fileID: 723532610, guid: d963d67a1bbca7542a07e7f8a9c71564, type: 3}
+  dialogLines:
+  - Hello world. Why dont work?
+  - Could you go to my doughter. And help her!
+  dialogSpeed: 0.08
+  voiceSound: {fileID: 8300000, guid: 50a791f8bfb58d042b1aa68a84c5894a, type: 3}
+  voicePitch: 0.6
+  voiceVolume: 0.1
+  autoProgressLines: 
+  autoProgressDelay: 1.5

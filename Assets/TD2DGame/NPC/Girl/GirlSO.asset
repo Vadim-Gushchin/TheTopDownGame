@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 416165de9ae0f274e9b462c32e7b431c, type: 3}
+  m_Name: GirlSO
+  m_EditorClassIdentifier: Assembly-CSharp::NPCDialog
+  npcName: Girl
+  npcPortrait: {fileID: -969598900, guid: b5de1584cc5688a4889d488d4512ac38, type: 3}
+  dialogLines:
+  - Pls speak faster
+  - I gotta go!
+  dialogSpeed: 0.02
+  voiceSound: {fileID: 8300000, guid: caf6d8b05ead62d4fa66eb8445e6d950, type: 3}
+  voicePitch: 1
+  voiceVolume: 1
+  autoProgressLines: 
+  autoProgressDelay: 1.5

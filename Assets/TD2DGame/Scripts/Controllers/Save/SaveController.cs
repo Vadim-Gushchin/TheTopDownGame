@@ -8,13 +8,20 @@ public class SaveController : MonoBehaviour
     private string saveLocation;
     private InventoryController inventoryController;
     private HotbarController hotbarController;
+    private Chest[] chests;
 
     private void Start()
+    {
+        InitializeComponents();
+        LoadGame();
+    }
+
+    private void InitializeComponents()
     {
         saveLocation = Path.Combine(Application.persistentDataPath, "saveData.json");
         inventoryController = FindAnyObjectByType<InventoryController>();
         hotbarController = FindAnyObjectByType<HotbarController>();
-        LoadGame();
+        chests = FindObjectsOfType<Chest>();
     }
 
     public void SaveGame()
@@ -25,6 +32,7 @@ public class SaveController : MonoBehaviour
             mapBoundary = FindAnyObjectByType<CinemachineConfiner2D>().BoundingShape2D.gameObject.name,
             inventorySaveData = inventoryController.GetInventorySaveData(),
             hotbarSaveData = hotbarController.GetHotbarSaveData(),
+            chestSaveData = GetChestState()
         };
 
         File.WriteAllText(saveLocation, JsonUtility.ToJson(saveData));
@@ -38,13 +46,20 @@ public class SaveController : MonoBehaviour
         {
             SaveData saveData = JsonUtility.FromJson<SaveData>(File.ReadAllText(saveLocation));
             GameObject.FindGameObjectWithTag("Player").transform.position = saveData.playerPosition;
-            FindAnyObjectByType<CinemachineConfiner2D>().BoundingShape2D = GameObject.Find(saveData.mapBoundary).GetComponent<PolygonCollider2D>();
 
-            MapController_Manual.Instanse?.HighlithArea(saveData.mapBoundary);
+            PolygonCollider2D saveMapBoundary = GameObject.Find(saveData.mapBoundary).GetComponent<PolygonCollider2D>();
+            FindAnyObjectByType<CinemachineConfiner2D>().BoundingShape2D = saveMapBoundary;
+
+
+            MapController_Manual.Instance?.HighlithArea(saveData.mapBoundary);
+            MapController_Dynamic.Instance?.GenerateMap(saveMapBoundary);
 
             inventoryController.SetInvenotyItems(saveData.inventorySaveData);
             hotbarController.SetHotbarItems(saveData.hotbarSaveData);
 
+
+            LoadChestStates(saveData.chestSaveData);
+            PauseController.SetPause(false);
 
             Debug.Log($"Игра Загружена.");
         }
@@ -53,7 +68,37 @@ public class SaveController : MonoBehaviour
             SaveGame();
             inventoryController.SetInvenotyItems(new List<InventorySaveData>());
             hotbarController.SetHotbarItems(new List<InventorySaveData>());
+            MapController_Dynamic.Instance?.GenerateMap();
         }
+    }
+
+    private List<ChestSaveData> GetChestState()
+    {
+        List<ChestSaveData> chestStates = new List<ChestSaveData>();
+
+        foreach (Chest chest in chests)
+        {
+            ChestSaveData chestSaveData = new ChestSaveData
+            {
+                chestID = chest.ChestID,
+                isOpenned = chest.IsOpened
+            };
+            chestStates.Add(chestSaveData);
+        }
+        return chestStates;
+    }
+
+    private void LoadChestStates(List<ChestSaveData> chestStates)
+    {
+        foreach (Chest chest in chests)
+        {
+            ChestSaveData chestSaveData = chestStates.Find(c => c.chestID == chest.ChestID);
+            if (chestSaveData != null)
+            {
+                chest.SetOpened(chestSaveData.isOpenned);
+            }
+        }
+
     }
 }
 

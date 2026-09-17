@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class MapController_Manual : MonoBehaviour
 {
-    public static MapController_Manual Instanse { get; set; }
+    public static MapController_Manual Instance { get; set; }
 
     public GameObject mapParent;
     List<Image> mapImages;
@@ -17,18 +17,20 @@ public class MapController_Manual : MonoBehaviour
 
     private void Awake()
     {
-        //if (Instanse != null && Instanse != this)
-        //{
-        //    Destroy(gameObject);
-        //}
-        //else
-        //{
-        //    Instanse = this;
-        //}
-        // In the orginal video guide used method above. But in my game its clear all gameobjects map
+        if (Instance == null || Instance != this)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+       // In the orginal video guide used method above. But in my game its clear all gameobjects map
 
-        Instanse = this;
-        mapImages = mapParent.GetComponentsInChildren<Image>().ToList();
+       mapImages = mapParent.GetComponentsInChildren<Image>().ToList(); 
+        // Get all children of mapParent and convert to list
+        //В этой строчке мы получаем все дочерние объекты mapParent и преобразуем их в список
+        
     }
 
     public void HighlithArea(string areaName)
