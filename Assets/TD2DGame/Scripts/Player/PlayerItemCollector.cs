@@ -20,6 +20,7 @@ public class PlayerItemCollector : MonoBehaviour
                 if(itemAdded) 
                 {
                     item.Pickup();
+                    SoundEffectManager.PlaySoundEffect("PickUp");
                     Destroy(collision.gameObject);
                 }
             }

@@ -13,6 +13,8 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D _rigidbody2D;
     private Vector2 _moveInput;
     private Animator _animator;
+    private bool playingFootsteps = false;
+    public float footstepSpeed = 0.5f;
 
     private void Awake()
     {
@@ -22,12 +24,30 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+
+        if (PauseController.IsGamePaused)
+        {
+            _rigidbody2D.linearVelocity = Vector2.zero;
+            _animator.SetBool(IS_WALKING, false);
+            StopFootSteps();
+            return;
+        }
         _rigidbody2D.linearVelocity = _moveInput * _moveSpeed;
+        _animator.SetBool(IS_WALKING, _rigidbody2D.linearVelocity.magnitude > 0);
+
+        if (_rigidbody2D.linearVelocity.magnitude > 0 && !playingFootsteps)
+        {
+            StartFootSteps();
+        }
+        else if (_rigidbody2D.linearVelocity.magnitude == 0)
+        {
+            StopFootSteps();
+        }
     }
 
     public void Move(InputAction.CallbackContext context)
     {
-        _animator.SetBool(IS_WALKING, true);
+
         if (context.canceled)
         {
 
@@ -38,6 +58,25 @@ public class PlayerMovement : MonoBehaviour
         _moveInput = context.ReadValue<Vector2>();
         _animator.SetFloat(CURRENT_INPUT_X, _moveInput.x);
         _animator.SetFloat(CURRENT_INPUT_Y, _moveInput.y);
+    }
+
+    void StartFootSteps()
+    {
+        playingFootsteps = true;
+        InvokeRepeating(nameof(PlayFootStep), 0f, footstepSpeed);
+
+    }   
+   
+
+    void StopFootSteps()
+    {
+        playingFootsteps = false;
+        CancelInvoke(nameof(PlayFootStep));
+    }
+
+    void PlayFootStep()
+    {
+        SoundEffectManager.PlaySoundEffect("FootSteps",true);
     }
 
 }

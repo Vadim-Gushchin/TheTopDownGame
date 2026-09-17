@@ -17,11 +17,14 @@ public class BounceEffect : MonoBehaviour
         float localHeight = bounceHight;
         float localDuration = bounceDuration;
 
-        for(int i= 0; i < bounceCount; i++)
+
+        for (int i = 0; i < bounceCount; i++)
         {
             yield return Bounce(startPositon, localHeight, localDuration / 2);
             localHeight *= 0.5f;
             localDuration *= 0.5f;
+            SoundEffectManager.PlaySoundEffect("DropItem");
+           
         }
         transform.position = startPositon;
     }
@@ -34,7 +37,7 @@ public class BounceEffect : MonoBehaviour
         while (elasped < duartion)
         {
             transform.position = Vector3.Lerp(start, peak, elasped / duartion);
-            elasped += Time.deltaTime*2;
+            elasped += Time.deltaTime * 2;
             yield return null;
         }
         elasped = 0f;
