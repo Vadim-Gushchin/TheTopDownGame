@@ -6,6 +6,7 @@ public class MenuController : MonoBehaviour
 
     private void Start()
     {
+        menuCanvas.SetActive(true);
         menuCanvas.SetActive(false);
     }
 

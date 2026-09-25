@@ -32,7 +32,8 @@ public class SaveController : MonoBehaviour
             mapBoundary = FindAnyObjectByType<CinemachineConfiner2D>().BoundingShape2D.gameObject.name,
             inventorySaveData = inventoryController.GetInventorySaveData(),
             hotbarSaveData = hotbarController.GetHotbarSaveData(),
-            chestSaveData = GetChestState()
+            chestSaveData = GetChestState(),
+            questsProgressSaveData = QuestController.Instance.activateQuest
         };
 
         File.WriteAllText(saveLocation, JsonUtility.ToJson(saveData));
@@ -59,6 +60,8 @@ public class SaveController : MonoBehaviour
 
 
             LoadChestStates(saveData.chestSaveData);
+
+            QuestController.Instance.LoadQuestProgress(saveData.questsProgressSaveData);
             PauseController.SetPause(false);
 
             Debug.Log($"Игра Загружена.");
@@ -122,7 +125,7 @@ public class SaveController : MonoBehaviour
         Местоположение сохранения - это файл с именем saveData.json в постоянном каталоге данных приложения.
 
          inventoryController = FindAnyObjectByType<InventoryController>();
-         Just find the first instance of the InventoryController class in the scene and assign it to the inventoryController variable.
+         Just find the first Instance of the InventoryController class in the scene and assign it to the inventoryController variable.
          Просто находим  экземпляр класса InventoryController в сцене и присвойте его переменной inventoryController.
 
         LoadGame();
@@ -134,7 +137,7 @@ public class SaveController : MonoBehaviour
     public void SaveGame()
     {
         SaveData saveData = new SaveData()
-        //Create a new instance of the SaveData class and populate it with the player's position and the current map boundary
+        //Create a new Instance of the SaveData class and populate it with the player's position and the current map boundary
         //Создайте новый экземпляр класса SaveData и заполните его позицией игрока и текущей границей карты
         {
             playerPosition = GameObject.FindGameObjectWithTag("Player").transform.position,
