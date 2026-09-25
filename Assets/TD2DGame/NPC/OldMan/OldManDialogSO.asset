@@ -14,12 +14,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NPCDialog
   npcName: Old Man
   npcPortrait: {fileID: 723532610, guid: d963d67a1bbca7542a07e7f8a9c71564, type: 3}
-  dialogLines:
-  - Hello world. Why dont work?
-  - Could you go to my doughter. And help her!
-  dialogSpeed: 0.08
+  dialogSpeed: 0.05
   voiceSound: {fileID: 8300000, guid: 50a791f8bfb58d042b1aa68a84c5894a, type: 3}
   voicePitch: 0.6
   voiceVolume: 0.1
-  autoProgressLines: 
   autoProgressDelay: 1.5
+  dialogLines:
+  - Easy there, my boy. Your steel is sharp, but you'll need more than a sword in
+    those ancient ruins
+  - Could you help me before?
+  - 'Good luck finding poisions! '
+  - WHAT? are u kiddin?
+  - 'Where is my Poisions? '
+  - 'Whoa thanks buddy for that stuff gonna open The Shop  '
+  autoProgressLines: 010000000000
+  endDialogueLines: 000001010101
+  choices:
+  - dialogueIndex: 1
+    choices:
+    - Yes
+    - NAH BRO
+    nextDialogueIndex: 0200000003000000
+    givesQuest: 0100
+  questInProgress: 4
+  questCompletedIndex: 5
+  quest: {fileID: 11400000, guid: a7a6077e4603eca40a7264391459dfe5, type: 2}

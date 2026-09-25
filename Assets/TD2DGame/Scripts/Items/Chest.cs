@@ -1,5 +1,6 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using static GlobalHelper;
 
 public class Chest : MonoBehaviour, IInteracteble
 {
@@ -38,7 +39,7 @@ public class Chest : MonoBehaviour, IInteracteble
     private void OpenChest()
     {
         SetOpened(true);
-        SoundEffectManager.PlaySoundEffect("Chest");
+        SoundEffectManager.PlaySoundEffect(SoundEffectConstants.Chest);
 
         if (itemPrefab)
         {

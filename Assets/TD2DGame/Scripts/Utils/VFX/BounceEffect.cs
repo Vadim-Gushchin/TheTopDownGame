@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using static GlobalHelper;
 
 public class BounceEffect : MonoBehaviour
 {
@@ -23,7 +24,7 @@ public class BounceEffect : MonoBehaviour
             yield return Bounce(startPositon, localHeight, localDuration / 2);
             localHeight *= 0.5f;
             localDuration *= 0.5f;
-            SoundEffectManager.PlaySoundEffect("DropItem");
+            SoundEffectManager.PlaySoundEffect(SoundEffectConstants.DropItem);
            
         }
         transform.position = startPositon;

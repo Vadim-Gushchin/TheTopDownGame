@@ -3,15 +3,32 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class NPC : MonoBehaviour,IInteracteble
+public class NPC : MonoBehaviour, IInteracteble
 {
     public NPCDialog dialogueData;
-    public GameObject dialoguePanel;
-    public TMP_Text dialogueText, nameText;
-    public Image portrait;
-
+    private DialogueController dialogueUI;
     private int dialogueIndex;
     private bool isTyping, isDialogueActive;
+
+    private string currentFullText;
+
+    private enum QuestState { NotStarted, InProgress, Complited }
+    private QuestState questState = QuestState.NotStarted;
+
+
+    private void Start()
+    {
+        dialogueUI = DialogueController.Instance;
+    }
+
+    private void Update()
+    {
+        // ✅ Обработка нажатия пробела ТОЛЬКО когда диалог активен
+        if (isDialogueActive && Input.GetKeyDown(KeyCode.Space))
+        {
+            NextLine();
+        }
+    }
 
     public bool CanInteract()
     {
@@ -25,72 +42,170 @@ public class NPC : MonoBehaviour,IInteracteble
             return;
         }
 
-        if (isDialogueActive)
-        {
-            NextLine();
-        }
-        else
+        if (!isDialogueActive)
         {
             StartDialogue();
         }
     }
     public void EndDialogue()
     {
+        if (questState == QuestState.Complited && !QuestController.Instance.IsQuestHandedIn(dialogueData.quest.questID))
+        {
+            HandleQuestComplition(dialogueData.quest);
+        }
+
         StopAllCoroutines();
         isDialogueActive = false;
-        dialogueText.SetText("");
-        dialoguePanel.SetActive(false);
+        dialogueUI.SetDialogueText("");
+        dialogueUI.ShowDialogueUI(false);
         PauseController.SetPause(false);
-    
     }
 
-   private void StartDialogue()
+    void HandleQuestComplition(Quest quest)
     {
-        isDialogueActive = true;
+
+        Debug.Log($"[NPC] HandleQuestComplition вызван");
+        Debug.Log($"[NPC] quest == null? {quest == null}");
+        Debug.Log($"[NPC] RewardController.Instance == null? {RewardController.Instance == null}");
+        Debug.Log($"[NPC] QuestController.Instance == null? {QuestController.Instance == null}");
+
+        RewardController.Instance.GiveQuestReard(quest);
+        QuestController.Instance.HandInQuest(quest.questID);
+
+    }
+
+    private void StartDialogue()
+    {
         dialogueIndex = 0;
+        SyncQuestState();
 
-        nameText.SetText(dialogueData.npcName);
-        portrait.sprite = dialogueData.npcPortrait;
+        if (questState == QuestState.NotStarted)
+        {
+            dialogueIndex = 0;
+        }
+        else if (questState == QuestState.InProgress)
+        {
+            dialogueIndex = dialogueData.questInProgress;
+        }
+        else if (questState == QuestState.Complited)
+        {
+            dialogueIndex = dialogueData.questCompletedIndex;
+        }
 
-        dialoguePanel.SetActive(true);
+        isDialogueActive = true;
+       
+
+        dialogueUI.SetNPCInfo(dialogueData.npcName, dialogueData.npcPortrait);
+
+
+        dialogueUI.ShowDialogueUI(true);
         PauseController.SetPause(true);
 
-        StartCoroutine(TypeLine());
+        DisplayCurrentLine();
+    }
+
+    private void SyncQuestState()
+    {
+        if (dialogueData.quest == null) return;
+
+        string questID = dialogueData.quest.questID;
+
+        if (QuestController.Instance.IsQuestCompleted(questID) || QuestController.Instance.IsQuestHandedIn(questID))
+        {
+            questState = QuestState.Complited;
+        }
+        else if (QuestController.Instance.IsQuestActive(questID))
+        {
+            questState = QuestState.InProgress;
+        }
+        else
+        {
+            questState = QuestState.NotStarted;
+        }
     }
     private void NextLine()
     {
         if (isTyping)
         {
             StopAllCoroutines();
-            dialogueText.SetText(dialogueData.dialogLines[dialogueIndex]);
+            dialogueUI.SetDialogueText(dialogueData.dialogLines[dialogueIndex]);
             isTyping = false;
+            return;
         }
-        else if (++dialogueIndex < dialogueData.dialogLines.Length)
+
+        //Clear Choices
+        dialogueUI.ClearChoices();
+        if ((dialogueData.endDialogueLines.Length > dialogueIndex) && (dialogueData.endDialogueLines[dialogueIndex]))
         {
-            StartCoroutine(TypeLine());
+            EndDialogue();
+            return;
+        }
+        foreach (DialogueChoice dialogueChoice in dialogueData.choices)
+        {
+            if (dialogueChoice.dialogueIndex == dialogueIndex)
+            {
+                DisplayChoices(dialogueChoice);
+                return;
+            }
+        }
+
+        if (++dialogueIndex < dialogueData.dialogLines.Length)
+        {
+            DisplayCurrentLine();
         }
         else
         {
             EndDialogue();
         }
     }
+    private void DisplayChoices(DialogueChoice choice)
+    {
+        for (int i = 0; i < choice.choices.Length; i++)
+        {
+            int nextIndex = choice.nextDialogueIndex[i];
+            bool givesQuest = choice.givesQuest[i];
+            dialogueUI.CreateChoiceButton(choice.choices[i], () => ChooseOptionn(nextIndex, givesQuest));
+        }
+    }
+
+    private void ChooseOptionn(int nexIndex, bool givesQuest)
+    {
+        if (givesQuest)
+        {
+            QuestController.Instance.AcceptQuest(dialogueData.quest);
+            questState = QuestState.InProgress;
+        }
+        dialogueIndex = nexIndex;
+        dialogueUI.ClearChoices();
+        DisplayCurrentLine();
+    }
+
+    private void DisplayCurrentLine()
+    {
+        StopAllCoroutines();
+        StartCoroutine(TypeLine());
+    }
 
     IEnumerator TypeLine()
     {
         isTyping = true;
 
-        dialogueText.SetText("");
+        currentFullText = dialogueData.dialogLines[dialogueIndex];
+        string currentTextTemp = "";
 
-        foreach (char letter in dialogueData.dialogLines[dialogueIndex])
+        foreach (char letter in currentFullText)
         {
-            dialogueText.text+=letter;
+            currentTextTemp += letter;
+            dialogueUI.SetDialogueText(currentTextTemp);
             SoundEffectManager.PlayVoice(dialogueData.voiceSound, dialogueData.voicePitch, dialogueData.voiceVolume);
             yield return new WaitForSeconds(dialogueData.dialogSpeed);
         }
 
         isTyping = false;
 
-        if(dialogueData.autoProgressLines.Length<dialogueIndex && dialogueData.autoProgressLines[dialogueIndex])
+        if (dialogueData.autoProgressLines != null &&
+            dialogueIndex < dialogueData.autoProgressLines.Length &&
+            dialogueData.autoProgressLines[dialogueIndex])
         {
             yield return new WaitForSeconds(dialogueData.autoProgressDelay);
             NextLine();

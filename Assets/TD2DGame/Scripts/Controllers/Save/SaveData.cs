@@ -23,6 +23,7 @@ public class SaveData
     // Это список, который будет хранить предметы инвентаря игрока, каждый из которых представлен объектом InventorySaveData.
     public List<InventorySaveData> hotbarSaveData;
     public List<ChestSaveData> chestSaveData;
+    public List<QuestProgress> questsProgressSaveData;
 
 }
 
