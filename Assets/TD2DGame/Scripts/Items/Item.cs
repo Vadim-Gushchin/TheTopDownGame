@@ -8,6 +8,10 @@ public class Item : MonoBehaviour
     public int itemID;
     public string itemName;
     public int quantity = 1;
+    public int buyPrice = 10;
+    [Range(0,1)]
+    public float sellMultiplier = 0.5f;
+
     private TMP_Text quantityText;
 
     private void Awake()
@@ -29,6 +33,10 @@ public class Item : MonoBehaviour
         Debug.Log($" {itemName} was used");
     }
 
+    public int GetSellPrice()
+    {
+        return Mathf.RoundToInt(buyPrice * sellMultiplier);
+    }
     public virtual void ShowPickUp()
     {
 

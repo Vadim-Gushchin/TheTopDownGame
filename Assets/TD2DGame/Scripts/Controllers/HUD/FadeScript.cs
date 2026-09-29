@@ -43,6 +43,7 @@ public class FadeScript : MonoBehaviour
     }
     public async Task FadeOut()
     {
+
         await Fade(1);
         SetDamping(Vector3.zero);
      

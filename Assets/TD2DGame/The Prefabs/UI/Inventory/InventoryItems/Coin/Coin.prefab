@@ -379,6 +379,8 @@ MonoBehaviour:
   itemID: 4
   itemName: Coin
   quantity: 1
+  buyPrice: 1
+  sellMultiplier: 1
 --- !u!114 &3993115597348420532
 MonoBehaviour:
   m_ObjectHideFlags: 0

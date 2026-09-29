@@ -114,8 +114,11 @@ public class QuestController : MonoBehaviour
     public void LoadQuestProgress(List<QuestProgress> savedQuests)
     {
         activateQuest = savedQuests ?? new();
-        CheckInvetoryForQuests();
-        questUI.UpdateQuestUI();
+        if (questUI != null)
+        {
+            CheckInvetoryForQuests();
+            questUI.UpdateQuestUI();
+        }
     }
 
     public QuestProgress GetQuestByID(string questID)

@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 3958462264609946540}
   - component: {fileID: 9153909611976236394}
   - component: {fileID: 3144867762613031665}
+  - component: {fileID: 4515024746736582567}
   m_Layer: 5
   m_Name: Item
   m_TagString: Item
@@ -219,6 +220,8 @@ MonoBehaviour:
   itemID: 1
   itemName: Poision
   quantity: 1
+  buyPrice: 10
+  sellMultiplier: 0.5
 --- !u!114 &3144867762613031665
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,6 +237,19 @@ MonoBehaviour:
   bounceHight: 0.5
   bounceDuration: 1
   bounceCount: 2
+--- !u!114 &4515024746736582567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6662426506785564210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66693d4251ffcea4a8ca0656386401a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShopItemHandler
+  originalInventorySlot: {fileID: 0}
 --- !u!1 &8562361401607968062
 GameObject:
   m_ObjectHideFlags: 0
