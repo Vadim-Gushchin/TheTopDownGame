@@ -13,14 +13,20 @@ public class InteractionDetector : MonoBehaviour
     public void OnInteract(InputAction.CallbackContext context)
     {
         if (context.performed)
-
         {
+            if (!IsTargetAlive())
+            {
+                ClearTarget();
+                return;
+            }
+
             interactebleInRange?.Interact();
             if (!interactebleInRange.CanInteract())
             {
                 interactionIcon.SetActive(false);
             }
         }
+        else return;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -36,9 +42,19 @@ public class InteractionDetector : MonoBehaviour
     {
         if (collision.TryGetComponent(out IInteracteble interacteble) && interacteble == interactebleInRange)
         {
-            interactebleInRange = null;
-            interactionIcon.SetActive(false);
+            ClearTarget();
         }
     }
-
+    private void ClearTarget()
+    {
+        interactebleInRange = null;
+        interactionIcon.SetActive(false);
+    }
+    private bool IsTargetAlive()
+    {
+        // Первая проверка — обычный null.
+        // Вторая — ловит УНИЧТОЖЕННЫЙ объект: для интерфейсов "умный"
+        // оператор == null не работает, поэтому приводим к UnityEngine.Object.
+        return interactebleInRange != null && (interactebleInRange as UnityEngine.Object) != null;
+    }
 }

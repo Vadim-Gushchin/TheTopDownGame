@@ -13,6 +13,7 @@ public class SaveController : MonoBehaviour
     private void Start()
     {
         InitializeComponents();
+
         LoadGame();
     }
 

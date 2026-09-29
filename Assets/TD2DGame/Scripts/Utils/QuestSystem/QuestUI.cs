@@ -22,11 +22,12 @@ public class QuestUI : MonoBehaviour
         //{
         //    testQuests.Add(new QuestProgress(testQuest));
         //}
-        UpdateQuestUI();
     }
 
     public void UpdateQuestUI()
     {
+        if (QuestController.Instance == null) return;
+
         // Clear existing quest entries
         foreach (Transform child in questListContent)
         {

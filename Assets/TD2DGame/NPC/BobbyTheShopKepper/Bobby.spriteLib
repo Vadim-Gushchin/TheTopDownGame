@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &1
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5e6fedc2472449cead18ef23b5cb30d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteLibrarySourceAsset
+  m_Library:
+  - m_Name: Idle
+    m_Hash: 1008081451
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: Idle_0
+      m_Hash: 288431053
+      m_Sprite: {fileID: -44957749, guid: 567d1ff62bf4f5644b6dc4f5df9776b4, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -44957749, guid: 567d1ff62bf4f5644b6dc4f5df9776b4, type: 3}
+    - m_Name: Idle_2
+      m_Hash: 1061124833
+      m_Sprite: {fileID: -1174293081, guid: 567d1ff62bf4f5644b6dc4f5df9776b4, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -1174293081, guid: 567d1ff62bf4f5644b6dc4f5df9776b4, type: 3}
+    - m_Name: Idle_3
+      m_Hash: 137906807
+      m_Sprite: {fileID: 558380172, guid: 567d1ff62bf4f5644b6dc4f5df9776b4, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 558380172, guid: 567d1ff62bf4f5644b6dc4f5df9776b4, type: 3}
+    - m_Name: Jump_0
+      m_Hash: 678744495
+      m_Sprite: {fileID: 29310345, guid: 3f753d518058fac49b1bf6d0a6d21251, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 29310345, guid: 3f753d518058fac49b1bf6d0a6d21251, type: 3}
+    - m_Name: Jump_1
+      m_Hash: 527687993
+      m_Sprite: {fileID: 1736214193, guid: 3f753d518058fac49b1bf6d0a6d21251, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 1736214193, guid: 3f753d518058fac49b1bf6d0a6d21251, type: 3}
+    - m_Name: Jump_2
+      m_Hash: 108703875
+      m_Sprite: {fileID: 1524607610, guid: 3f753d518058fac49b1bf6d0a6d21251, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 1524607610, guid: 3f753d518058fac49b1bf6d0a6d21251, type: 3}
+    - m_Name: Jump_3
+      m_Hash: 830308373
+      m_Sprite: {fileID: 1511814769, guid: 3f753d518058fac49b1bf6d0a6d21251, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 1511814769, guid: 3f753d518058fac49b1bf6d0a6d21251, type: 3}
+    - m_Name: SpriteSheet_24
+      m_Hash: 536466219
+      m_Sprite: {fileID: 1421375523, guid: 52d5fe9990118e94fad06ff096bdd5a2, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 1421375523, guid: 52d5fe9990118e94fad06ff096bdd5a2, type: 3}
+    - m_Name: SpriteSheet_24_0
+      m_Hash: 864617014
+      m_Sprite: {fileID: 1421375523, guid: 6283949d58b2ae849a0ccb42f7f3769f, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 1421375523, guid: 6283949d58b2ae849a0ccb42f7f3769f, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 9
+  m_PrimaryLibraryGUID: 
+  m_ModificationHash: 639261818000324514
+  m_Version: 1

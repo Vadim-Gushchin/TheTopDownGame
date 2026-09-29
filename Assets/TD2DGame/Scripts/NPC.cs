@@ -63,15 +63,8 @@ public class NPC : MonoBehaviour, IInteracteble
 
     void HandleQuestComplition(Quest quest)
     {
-
-        Debug.Log($"[NPC] HandleQuestComplition вызван");
-        Debug.Log($"[NPC] quest == null? {quest == null}");
-        Debug.Log($"[NPC] RewardController.Instance == null? {RewardController.Instance == null}");
-        Debug.Log($"[NPC] QuestController.Instance == null? {QuestController.Instance == null}");
-
         RewardController.Instance.GiveQuestReard(quest);
         QuestController.Instance.HandInQuest(quest.questID);
-
     }
 
     private void StartDialogue()
