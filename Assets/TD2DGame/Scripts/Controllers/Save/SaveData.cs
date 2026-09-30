@@ -22,5 +22,15 @@ public class SaveData
     // Its a list that will hold the player's inventory items, each represented by an InventorySaveData object.
     // Это список, который будет хранить предметы инвентаря игрока, каждый из которых представлен объектом InventorySaveData.
     public List<InventorySaveData> hotbarSaveData;
+    public List<ChestSaveData> chestSaveData;
+    public List<QuestProgress> questsProgressSaveData;
+
 }
 
+[System.Serializable]
+public class ChestSaveData
+{
+    public string chestID;
+    public bool isOpenned;
+
+}

@@ -36,7 +36,7 @@ public class HotbarController : MonoBehaviour
 
     void UseItemInSlot(int slotIndex)
     {
-        InentorySlot slot = hotbarPanel.transform.GetChild(slotIndex).GetComponent<InentorySlot>();
+        InventorySlot slot = hotbarPanel.transform.GetChild(slotIndex).GetComponent<InventorySlot>();
         if (slot.currentItem != null)
         {
             Item item = slot.currentItem.GetComponent<Item>();
@@ -51,11 +51,13 @@ public class HotbarController : MonoBehaviour
 
         foreach (Transform slotTransform in hotbarPanel.transform)
         {
-            InentorySlot slot = slotTransform.GetComponent<InentorySlot>();
+            InventorySlot slot = slotTransform.GetComponent<InventorySlot>();
             if (slot.currentItem != null)
             {
                 Item currentItemInTheSlot = slot.currentItem.GetComponent<Item>();
-                hotbarData.Add(new InventorySaveData { itemID = currentItemInTheSlot.itemID, slotIndex = slotTransform.GetSiblingIndex() });
+                hotbarData.Add(new InventorySaveData { itemID = currentItemInTheSlot.itemID,
+                    slotIndex = slotTransform.GetSiblingIndex(), 
+                    quantity = currentItemInTheSlot.quantity });
             }
         }
         Debug.Log($"HOTBAR Вернул {hotbarData.Count} элементов");
@@ -78,12 +80,18 @@ public class HotbarController : MonoBehaviour
         {
             if (savedData.slotIndex < numberOfSlots)
             {
-                InentorySlot slot = hotbarPanel.transform.GetChild(savedData.slotIndex).GetComponent<InentorySlot>();
+                InventorySlot slot = hotbarPanel.transform.GetChild(savedData.slotIndex).GetComponent<InventorySlot>();
                 GameObject itemPrefab = itemDictionary.GetItemPrefabByID(savedData.itemID);
                 if (itemPrefab != null)
                 {
                     GameObject item = Instantiate(itemPrefab, slot.transform);
                     item.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+                    Item itemComponent = item.GetComponent<Item>();
+                    if (itemComponent != null && savedData.quantity > 1)
+                    {
+                        itemComponent.quantity = savedData.quantity;
+                        itemComponent.UpdateQuantityText();
+                    }
                     slot.currentItem = item;
                 }
             }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using static GlobalHelper;
 
 public class PlayerItemCollector : MonoBehaviour
 {
@@ -19,7 +20,8 @@ public class PlayerItemCollector : MonoBehaviour
                 bool itemAdded = inventoryController.AddItemToInventory(collision.gameObject);
                 if(itemAdded) 
                 {
-                    item.Pickup();
+                    item.ShowPickUp();
+                    SoundEffectManager.PlaySoundEffect(SoundEffectConstants.PickUp);
                     Destroy(collision.gameObject);
                 }
             }

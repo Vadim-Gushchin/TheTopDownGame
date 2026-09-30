@@ -8,13 +8,21 @@ public class SaveController : MonoBehaviour
     private string saveLocation;
     private InventoryController inventoryController;
     private HotbarController hotbarController;
+    private Chest[] chests;
 
     private void Start()
+    {
+        InitializeComponents();
+
+        LoadGame();
+    }
+
+    private void InitializeComponents()
     {
         saveLocation = Path.Combine(Application.persistentDataPath, "saveData.json");
         inventoryController = FindAnyObjectByType<InventoryController>();
         hotbarController = FindAnyObjectByType<HotbarController>();
-        LoadGame();
+        chests = FindObjectsOfType<Chest>();
     }
 
     public void SaveGame()
@@ -25,6 +33,8 @@ public class SaveController : MonoBehaviour
             mapBoundary = FindAnyObjectByType<CinemachineConfiner2D>().BoundingShape2D.gameObject.name,
             inventorySaveData = inventoryController.GetInventorySaveData(),
             hotbarSaveData = hotbarController.GetHotbarSaveData(),
+            chestSaveData = GetChestState(),
+            questsProgressSaveData = QuestController.Instance.activateQuest
         };
 
         File.WriteAllText(saveLocation, JsonUtility.ToJson(saveData));
@@ -38,9 +48,22 @@ public class SaveController : MonoBehaviour
         {
             SaveData saveData = JsonUtility.FromJson<SaveData>(File.ReadAllText(saveLocation));
             GameObject.FindGameObjectWithTag("Player").transform.position = saveData.playerPosition;
-            FindAnyObjectByType<CinemachineConfiner2D>().BoundingShape2D = GameObject.Find(saveData.mapBoundary).GetComponent<PolygonCollider2D>();
+
+            PolygonCollider2D saveMapBoundary = GameObject.Find(saveData.mapBoundary).GetComponent<PolygonCollider2D>();
+            FindAnyObjectByType<CinemachineConfiner2D>().BoundingShape2D = saveMapBoundary;
+
+
+            MapController_Manual.Instance?.HighlithArea(saveData.mapBoundary);
+            MapController_Dynamic.Instance?.GenerateMap(saveMapBoundary);
+
             inventoryController.SetInvenotyItems(saveData.inventorySaveData);
             hotbarController.SetHotbarItems(saveData.hotbarSaveData);
+
+
+            LoadChestStates(saveData.chestSaveData);
+
+            QuestController.Instance.LoadQuestProgress(saveData.questsProgressSaveData);
+            PauseController.SetPause(false);
 
             Debug.Log($"Игра Загружена.");
         }
@@ -49,7 +72,37 @@ public class SaveController : MonoBehaviour
             SaveGame();
             inventoryController.SetInvenotyItems(new List<InventorySaveData>());
             hotbarController.SetHotbarItems(new List<InventorySaveData>());
+            MapController_Dynamic.Instance?.GenerateMap();
         }
+    }
+
+    private List<ChestSaveData> GetChestState()
+    {
+        List<ChestSaveData> chestStates = new List<ChestSaveData>();
+
+        foreach (Chest chest in chests)
+        {
+            ChestSaveData chestSaveData = new ChestSaveData
+            {
+                chestID = chest.ChestID,
+                isOpenned = chest.IsOpened
+            };
+            chestStates.Add(chestSaveData);
+        }
+        return chestStates;
+    }
+
+    private void LoadChestStates(List<ChestSaveData> chestStates)
+    {
+        foreach (Chest chest in chests)
+        {
+            ChestSaveData chestSaveData = chestStates.Find(c => c.chestID == chest.ChestID);
+            if (chestSaveData != null)
+            {
+                chest.SetOpened(chestSaveData.isOpenned);
+            }
+        }
+
     }
 }
 
@@ -73,7 +126,7 @@ public class SaveController : MonoBehaviour
         Местоположение сохранения - это файл с именем saveData.json в постоянном каталоге данных приложения.
 
          inventoryController = FindAnyObjectByType<InventoryController>();
-         Just find the first instance of the InventoryController class in the scene and assign it to the inventoryController variable.
+         Just find the first Instance of the InventoryController class in the scene and assign it to the inventoryController variable.
          Просто находим  экземпляр класса InventoryController в сцене и присвойте его переменной inventoryController.
 
         LoadGame();
@@ -85,7 +138,7 @@ public class SaveController : MonoBehaviour
     public void SaveGame()
     {
         SaveData saveData = new SaveData()
-        //Create a new instance of the SaveData class and populate it with the player's position and the current map boundary
+        //Create a new Instance of the SaveData class and populate it with the player's position and the current map boundary
         //Создайте новый экземпляр класса SaveData и заполните его позицией игрока и текущей границей карты
         {
             playerPosition = GameObject.FindGameObjectWithTag("Player").transform.position,

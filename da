@@ -1,0 +1,23 @@
+[33me496c42[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mWorkInProgress[m[33m, [m[1;31morigin/WorkInProgress[m[33m)[m HEAD@{0}: checkout: moving from main to WorkInProgress
+[33me733876[m[33m ([m[1;32mmain[m[33m)[m HEAD@{1}: checkout: moving from WorkInProgress to main
+[33me496c42[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mWorkInProgress[m[33m, [m[1;31morigin/WorkInProgress[m[33m)[m HEAD@{2}: checkout: moving from main to WorkInProgress
+[33me733876[m[33m ([m[1;32mmain[m[33m)[m HEAD@{3}: checkout: moving from WorkInProgress to main
+[33me496c42[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mWorkInProgress[m[33m, [m[1;31morigin/WorkInProgress[m[33m)[m HEAD@{4}: commit: Финальный комит на данный момент.
+[33mc6e3c6c[m HEAD@{5}: checkout: moving from 86cf164624e68d75b9ad9d8314c02642f73a424b to WorkInProgress
+[33m86cf164[m HEAD@{6}: commit: Final
+[33mc6e3c6c[m HEAD@{7}: checkout: moving from WorkInProgress to c6e3c6c1a4c76c387c61b6856ddf70cdd775cc09
+[33mc6e3c6c[m HEAD@{8}: reset: moving to c6e3c6c1a4c76c387c61b6856ddf70cdd775cc09
+[33mc6e3c6c[m HEAD@{9}: commit: Some save coz unity make me brain
+[33mba5d049[m HEAD@{10}: commit: Устал писать на английском. Нейронкой переведу )0
+[33maf90e90[m HEAD@{11}: commit: Add Map and MapController based on existed WayPoints ( transform mapBoundry method).
+[33me733876[m[33m ([m[1;32mmain[m[33m)[m HEAD@{12}: checkout: moving from main to WorkInProgress
+[33me733876[m[33m ([m[1;32mmain[m[33m)[m HEAD@{13}: merge WorkInProgress: Fast-forward
+[33mb29fa89[m HEAD@{14}: checkout: moving from WorkInProgress to main
+[33me733876[m[33m ([m[1;32mmain[m[33m)[m HEAD@{15}: commit: Add hotbar and item use dummy
+[33m91a3c95[m HEAD@{16}: commit: Some work with UI
+[33m72cd67d[m HEAD@{17}: commit: Add invetory fill with gray boxes are prefabs
+[33m27d61dd[m HEAD@{18}: commit: So i played Pirate Yakuza for a whole week
+[33me926def[m HEAD@{19}: commit: Fix animation
+[33m375b765[m HEAD@{20}: commit: Add movement and patrly animation to main character
+[33m25ac47c[m HEAD@{21}: commit: First commit
+[33mb29fa89[m HEAD@{22}: checkout: moving from main to WorkInProgress

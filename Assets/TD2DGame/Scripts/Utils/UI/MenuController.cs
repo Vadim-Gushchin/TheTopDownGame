@@ -6,6 +6,7 @@ public class MenuController : MonoBehaviour
 
     private void Start()
     {
+        menuCanvas.SetActive(true);
         menuCanvas.SetActive(false);
     }
 
@@ -13,9 +14,13 @@ public class MenuController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
+            if (!menuCanvas.activeSelf && PauseController.IsGamePaused)
+            {
+                PauseController.SetPause(false);
+                return;
+            }
             menuCanvas.SetActive(!menuCanvas.activeSelf);
-            // Toggle the menu canvas on or off when the Tab key is pressed
-            // Переключение меню на или выключение при нажатии клавиши Tab
+            PauseController.SetPause(menuCanvas.activeSelf);
         }
     }
 }
