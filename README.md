@@ -48,6 +48,7 @@ Item pickup notifications
 Persistent state через JSON serialization
 Архитектурное решение: Отдельный GridContainer для слотов, LayoutElement.ignoreLayout для UI элементов вне сетки (money display, buttons)
 ❗ Делал впервые, но не понравилась реализация инвентаря, при добавлении новых gameobjects к ведет к проблемам, нужно делать дополнительный контейнер, где реализовывать автозаполнение InventoryGrid, например когда я захотел добавить золото - такая проблема возникла.
+
 💬 Dialogue System
 Scriptable Object-based конфигурация
 Branching Dialogue Trees
@@ -55,6 +56,7 @@ Conditional choices на основе quest state
 Dynamic dialogue (разные реплики в зависимости от прогресса квеста)
 Auto-progress с настраиваемой задержкой
 Typewriter effect через coroutine с WaitForSeconds
+
 🎯 Quest System
 Quest State Machine
 Scriptable Object Quest Definition
@@ -63,6 +65,7 @@ Automatic progress updates через events
 Quest Log UI с dynamic objective tracking
 Quest rewards system (Gold, Items, Experience)
 Persistent quest state через Save System
+
 💾 Save/Load System
 JSON Serialization Architecture:
 Critical Implementation Detail:
@@ -72,12 +75,14 @@ Inventory contents
 Quest progress
 World state (opened chests, triggered events)
 Expandable architecture для добавления новых данных
+
 🏪 Shop System
 Bidirectional Trading:
 Buy items from shop (dynamic stock)
 Sell items from inventory
 Custom stock per shop (Scriptable Object configuration)
 Persistent shop state (sold items remain sold after save/load)
+
 🎵 Audio System
 SoundEffectManager с Audio Pool:
 Features:
@@ -85,6 +90,7 @@ Centralized audio management
 Pitch randomization для variation
 Separate audio sources для voice/music/SFX
 Volume control через UI sliders
+
 🤖 NPC AI System
 Waypoint-based Movement:
 Features:
@@ -94,6 +100,7 @@ Pause on interaction (NPC останавливается при диалоге)
 Directional animation синхронизация
 ❗ В целом решение через вейпониты довольно простое и для обычных NPC в городе - хорошее решение, но для врагов лучше накатывать NavMesh и делать стейтмашин для переключение состояний.
 ❗ Так и передвижение более живое будет и в рамках одного контекста будет реализована агр на игрока.
+
 🎥 Camera System
 Cinemachine Virtual Camera:
 Smooth follow с настраиваемым damping
